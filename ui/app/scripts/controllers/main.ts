@@ -14,4 +14,4 @@ module uiApp {
 }
 
 angular.module('uiApp')
-    .controller('MainCtrl', uiApp.MainCtrl);
+    .controller('MainCtrl', ['$scope', uiApp.MainCtrl]);

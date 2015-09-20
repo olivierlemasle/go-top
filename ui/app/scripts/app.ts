@@ -17,9 +17,22 @@ interface IMainScope extends ng.IScope {
   menus: Menu[];
 }
 
+class UiCtrl {
+  constructor (private $scope: IMainScope, private $socket) {
+    $scope.menus = [
+      new Menu('About', '#/about'),
+      new Menu('Help', '#/help')
+    ]
+    $socket.on('test message', function(msg){
+      console.log(msg);
+    });
+  }
+}
+
 angular.module('uiApp', [
     'ngRoute',
-    'ngMaterial'
+    'ngMaterial',
+    'btford.socket-io'
   ])
   .config(($routeProvider:ng.route.IRouteProvider) => {
     $routeProvider
@@ -35,9 +48,7 @@ angular.module('uiApp', [
       .otherwise({
         redirectTo: '/'
       });
-  }).controller("uiCtrl", function($scope: IMainScope){
-    $scope.menus = [
-      new Menu('About', '#/about'),
-      new Menu('Help', '#/help')
-    ]
-  });
+  })
+  .factory('$socket', function (socketFactory) {
+    return socketFactory();
+  }).controller("uiCtrl", ['$scope', '$socket', UiCtrl]);

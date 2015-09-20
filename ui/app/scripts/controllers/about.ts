@@ -15,4 +15,4 @@ module uiApp {
 
 
 angular.module('uiApp')
-  .controller('AboutCtrl', uiApp.AboutCtrl);
+  .controller('AboutCtrl', ['$scope', uiApp.AboutCtrl]);

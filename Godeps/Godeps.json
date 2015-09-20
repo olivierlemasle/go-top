@@ -1,5 +1,19 @@
 {
 	"ImportPath": "github.com/olivierlemasle/go-top",
 	"GoVersion": "go1.5.1",
-	"Deps": []
+	"Deps": [
+		{
+			"ImportPath": "github.com/googollee/go-engine.io",
+			"Rev": "5525e3de461352f4c88d28287161ca2272c024ac"
+		},
+		{
+			"ImportPath": "github.com/googollee/go-socket.io",
+			"Comment": "0.9.x-37-g76e104d",
+			"Rev": "76e104d69892d45b272728110e61d4981408787a"
+		},
+		{
+			"ImportPath": "github.com/gorilla/websocket",
+			"Rev": "39cd638460acf1c01aaac38effc6e54ee7e04bca"
+		}
+	]
 }
