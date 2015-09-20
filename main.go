@@ -1,4 +1,4 @@
-package main
+package gotop
 
 import (
 	"log"
@@ -34,9 +34,11 @@ func emitInfo(so socketio.Socket, ch chan *thing) {
 	}
 }
 
-func main() {
+// CreateServer ...
+func CreateServer(uiPath string) {
 	// serve assets
-	http.Handle("/", http.FileServer(http.Dir("./ui/dist")))
+	log.Printf("Serving %v on %v", uiPath, "/")
+	http.Handle("/", http.FileServer(http.Dir(uiPath)))
 
 	server, err := socketio.NewServer(nil)
 	if err != nil {
@@ -59,8 +61,13 @@ func main() {
 	server.On("error", func(so socketio.Socket, err error) {
 		log.Println("error:", err)
 	})
-	http.Handle("/socket.io/", server)
 
+	log.Printf("Serving /socket.io/")
+	http.Handle("/socket.io/", server)
+}
+
+func main() {
+	CreateServer("./ui/dist/")
 	log.Println("Serving at localhost:8080...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
