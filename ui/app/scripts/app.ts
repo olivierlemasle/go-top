@@ -23,7 +23,7 @@ class UiCtrl {
       new Menu('About', '#/about'),
       new Menu('Help', '#/help')
     ]
-    $socket.on('test message', function(msg){
+    $socket.on('testMessage', function(msg){
       console.log(msg);
     });
   }

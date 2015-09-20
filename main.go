@@ -29,7 +29,7 @@ func fetchInfo(ch chan *thing, quit chan int) {
 
 func emitInfo(so socketio.Socket, ch chan *thing) {
 	for t := range ch {
-		so.Emit("test message", t)
+		so.Emit("testMessage", t)
 		time.Sleep(time.Second)
 	}
 }
