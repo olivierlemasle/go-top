@@ -1,4 +1,5 @@
 language: go
 sudo: false
 go: 1.5
+install: true
 before_script: ui/install.sh
