@@ -7,9 +7,11 @@ exports.config = {
 
   // Capabilities to be passed to the webdriver instance.
   multiCapabilities: [{
-    'browserName': 'firefox'
+    'browserName': 'firefox',
+    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
   }, {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
   }],
 
   // Framework to use. Jasmine 2 is recommended.
@@ -23,6 +25,6 @@ exports.config = {
 
   // Options to be passed to Jasmine.
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000
+    defaultTimeoutInterval: 60000
   }
 };
