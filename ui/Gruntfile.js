@@ -16,6 +16,7 @@ module.exports = function (grunt) {
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
+    protractor: 'grunt-protractor-runner'
   });
 
   // Configurable paths for the application
@@ -122,7 +123,16 @@ module.exports = function (grunt) {
       },
       all: {
         src: [
-          'Gruntfile.js'
+          'Gruntfile.js',
+          '<%= appConfig.app %>/scripts/{,*/}*.js'
+        ]
+      },
+      test: {
+        options: {
+          jshintrc: 'test/.jshintrc'
+        },
+        src: [
+          'test/*.js'
         ]
       }
     },
@@ -140,7 +150,7 @@ module.exports = function (grunt) {
         ]
       },
       test: {
-        src: ['test/spec/{,*/}*.js']
+        src: ['test/*.js']
       }
     },
 
@@ -413,6 +423,15 @@ module.exports = function (grunt) {
         'imagemin',
         'svgmin'
       ]
+    },
+
+    protractor: {
+      options: {
+        keepAlive: true,
+        configFile: 'test/protractor.conf.js',
+        webdriverManagerUpdate: true
+      },
+      run: {}
     }
   });
 
@@ -444,7 +463,8 @@ module.exports = function (grunt) {
     'tsd:refresh',
     'concurrent:test',
     'postcss',
-    'connect:test'
+    'connect:test',
+    'protractor:run'
   ]);
 
   grunt.registerTask('build', [
