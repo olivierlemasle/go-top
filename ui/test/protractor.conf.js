@@ -1,10 +1,5 @@
 // An example configuration file.
 exports.config = {
-  // directConnect: true,
-
-  sauceUser: process.env.SAUCE_USERNAME,
-  sauceKey: process.env.SAUCE_ACCESS_KEY,
-
   // Capabilities to be passed to the webdriver instance.
   multiCapabilities: [{
     'browserName': 'firefox',
@@ -28,3 +23,8 @@ exports.config = {
     defaultTimeoutInterval: 60000
   }
 };
+
+if (process.env.SAUCE_USERNAME !== null && process.env.SAUCE_ACCESS_KEY !== null) {
+  exports.config.sauceUser = process.env.SAUCE_USERNAME;
+  exports.config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+}
