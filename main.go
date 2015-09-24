@@ -1,22 +1,26 @@
-package gotop
+package main
 
 import (
 	"log"
 	"net/http"
 	"time"
 
+	"math/rand"
+
 	"github.com/olivierlemasle/go-top/Godeps/_workspace/src/github.com/googollee/go-socket.io"
 )
 
-type thing struct {
-	C    int
-	Time time.Time
+// CPUStat contains the CPU load per CPU
+type CPUStat struct {
+	Time    time.Time
+	CPULoad []int
 }
 
-func fetchInfo(ch chan *thing, quit chan int) {
-	for i := 0; ; i++ {
-		log.Println(i)
-		result := thing{i, time.Now()}
+func fetchInfo(ch chan *CPUStat, quit chan int) {
+	for {
+		cpuLoad := []int{rand.Intn(100), rand.Intn(100), rand.Intn(100), rand.Intn(100),
+			rand.Intn(100), rand.Intn(100), rand.Intn(100), rand.Intn(100)}
+		result := CPUStat{time.Now(), cpuLoad}
 		select {
 		case ch <- &result:
 		case <-quit:
@@ -27,9 +31,9 @@ func fetchInfo(ch chan *thing, quit chan int) {
 	}
 }
 
-func emitInfo(so socketio.Socket, ch chan *thing) {
+func emitInfo(so socketio.Socket, ch chan *CPUStat) {
 	for t := range ch {
-		so.Emit("testMessage", t)
+		so.Emit("cpuStatMessage", t)
 		time.Sleep(time.Second)
 	}
 }
@@ -48,7 +52,7 @@ func CreateServer(uiPath string) {
 		log.Println("on connection")
 		so.Join("top")
 
-		ch := make(chan *thing)
+		ch := make(chan *CPUStat)
 		quit := make(chan int)
 		go fetchInfo(ch, quit)
 		go emitInfo(so, ch)

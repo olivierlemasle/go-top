@@ -7,13 +7,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/olivierlemasle/go-top"
+	main "github.com/olivierlemasle/go-top"
 )
 
 func TestWebServer(t *testing.T) {
 	resp := httptest.NewRecorder()
 
-	gotop.CreateServer("../ui/dist")
+	main.CreateServer("../ui/dist")
 
 	req, err := http.NewRequest("GET", "/", nil)
 	if err != nil {

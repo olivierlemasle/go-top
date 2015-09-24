@@ -23,7 +23,7 @@ class UiCtrl {
       new Menu('About', '#/about'),
       new Menu('Help', '#/help')
     ]
-    $socket.on('testMessage', function(msg){
+    $socket.on('cpuStatMessage', function(msg){
       console.log(msg);
     });
   }
