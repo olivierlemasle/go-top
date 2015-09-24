@@ -18,14 +18,11 @@ interface IMainScope extends ng.IScope {
 }
 
 class UiCtrl {
-  constructor (private $scope: IMainScope, private $socket) {
+  constructor (private $scope: IMainScope) {
     $scope.menus = [
       new Menu('About', '#/about'),
       new Menu('Help', '#/help')
-    ]
-    $socket.on('cpuStatMessage', function(msg){
-      console.log(msg);
-    });
+    ];
   }
 }
 
@@ -51,4 +48,4 @@ angular.module('uiApp', [
   })
   .factory('$socket', function (socketFactory) {
     return socketFactory();
-  }).controller("uiCtrl", ['$scope', '$socket', UiCtrl]);
+  }).controller("uiCtrl", ['$scope', UiCtrl]);
