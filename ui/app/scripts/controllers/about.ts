@@ -1,18 +1,20 @@
 /// <reference path="../app.ts" />
 
-'use strict';
+"use strict";
 
 module uiApp {
+  "use strict";
+
   export interface IAboutScope extends ng.IScope {
   }
 
   export class AboutCtrl {
 
-    constructor (private $scope: IAboutScope) {
+    constructor(private $scope: IAboutScope) {
     }
   }
 }
 
 
-angular.module('uiApp')
-  .controller('AboutCtrl', ['$scope', uiApp.AboutCtrl]);
+angular.module("uiApp")
+  .controller("AboutCtrl", ["$scope", uiApp.AboutCtrl]);

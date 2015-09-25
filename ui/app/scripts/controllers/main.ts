@@ -1,37 +1,40 @@
 /// <reference path="../app.ts" />
+/// <reference path="../../../typings/socket.io-client/socket.io-client.d.ts" />
 
-'use strict';
+"use strict";
 
 module uiApp {
-    class CpuStatMessage {
-      Time;
-      CPULoad: number[];
-    }
+  "use strict";
 
-    export class Proc {
-      id: number;
-      load: number;
-    }
+  class CpuStatMessage {
+    Time: string;
+    CPULoad: number[];
+  }
 
-    export interface IMainScope extends ng.IScope {
-      procs: Array<Proc>;
-    }
+  export class Proc {
+    id: number;
+    load: number;
+  }
 
-    export class MainCtrl {
+  export interface IMainScope extends ng.IScope {
+    procs: Array<Proc>;
+  }
 
-        constructor(private $scope: IMainScope, private $socket) {
-          $scope.procs = [];
-          $socket.on('cpuStatMessage', function(msg: CpuStatMessage){
-            console.log(msg);
-            $scope.procs = [];
-            for (var n = 0; n<msg.CPULoad.length; n++) {
-              var proc = {"id": n, "load": msg.CPULoad[n]};
-              $scope.procs.push(proc);
-            }
-          })
+  export class MainCtrl {
+
+    constructor(private $scope: IMainScope, private $socket: SocketIOClient.Socket) {
+      $scope.procs = [];
+      $socket.on("cpuStatMessage", function(msg: CpuStatMessage): void {
+        console.log(msg);
+        $scope.procs = [];
+        for (let n: number = 0; n < msg.CPULoad.length; n++) {
+          let proc: Proc = { "id": n, "load": msg.CPULoad[n] };
+          $scope.procs.push(proc);
         }
+      });
     }
+  }
 }
 
-angular.module('uiApp')
-    .controller('MainCtrl', ['$scope', '$socket', uiApp.MainCtrl]);
+angular.module("uiApp")
+  .controller("MainCtrl", ["$scope", "$socket", uiApp.MainCtrl]);

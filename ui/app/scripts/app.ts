@@ -1,7 +1,7 @@
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../../typings/angularjs/angular-route.d.ts" />
 
-'use strict';
+"use strict";
 
 class Menu {
   title: string;
@@ -18,34 +18,34 @@ interface IMainScope extends ng.IScope {
 }
 
 class UiCtrl {
-  constructor (private $scope: IMainScope) {
+  constructor(private $scope: IMainScope) {
     $scope.menus = [
-      new Menu('About', '#/about'),
-      new Menu('Help', '#/help')
+      new Menu("About", "#/about"),
+      new Menu("Help", "#/help")
     ];
   }
 }
 
-angular.module('uiApp', [
-    'ngRoute',
-    'ngMaterial',
-    'btford.socket-io'
-  ])
-  .config(($routeProvider:ng.route.IRouteProvider) => {
+angular.module("uiApp", [
+  "ngRoute",
+  "ngMaterial",
+  "btford.socket-io"
+])
+  .config(($routeProvider: ng.route.IRouteProvider) => {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+      .when("/", {
+        templateUrl: "views/main.html",
+        controller: "MainCtrl"
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when("/about", {
+        templateUrl: "views/about.html",
+        controller: "AboutCtrl",
+        controllerAs: "about"
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: "/"
       });
   })
-  .factory('$socket', function (socketFactory) {
+  .factory("$socket", function(socketFactory: any): any {
     return socketFactory();
-  }).controller("uiCtrl", ['$scope', UiCtrl]);
+  }).controller("uiCtrl", ["$scope", UiCtrl]);

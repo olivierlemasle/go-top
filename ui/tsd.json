@@ -28,6 +28,9 @@
     },
     "jasmine/jasmine.d.ts": {
       "commit": "f23cd55e319a0f67362ca0dbc4cf3e2ec1339f4e"
+    },
+    "socket.io-client/socket.io-client.d.ts": {
+      "commit": "54f064352a3615443f7bff4198078db15e28247b"
     }
   }
 }
