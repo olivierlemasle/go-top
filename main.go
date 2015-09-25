@@ -5,9 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"math/rand"
-
 	"github.com/olivierlemasle/go-top/Godeps/_workspace/src/github.com/googollee/go-socket.io"
+	"github.com/olivierlemasle/go-top/procinfo"
 )
 
 // CPUStat contains the CPU load per CPU
@@ -18,8 +17,10 @@ type CPUStat struct {
 
 func fetchInfo(ch chan *CPUStat, quit chan int) {
 	for {
-		cpuLoad := []int{rand.Intn(100), rand.Intn(100), rand.Intn(100), rand.Intn(100),
-			rand.Intn(100), rand.Intn(100), rand.Intn(100), rand.Intn(100)}
+		cpuLoad, err := procinfo.GetCPULoad()
+		if err != nil {
+			log.Fatal(err)
+		}
 		result := CPUStat{time.Now(), cpuLoad}
 		select {
 		case ch <- &result:

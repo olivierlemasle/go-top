@@ -3,6 +3,10 @@
 	"GoVersion": "go1.5.1",
 	"Deps": [
 		{
+			"ImportPath": "github.com/c9s/goprocinfo/linux",
+			"Rev": "14038397a16323b61dee2f7c360c0e0b764ac2f9"
+		},
+		{
 			"ImportPath": "github.com/googollee/go-engine.io",
 			"Rev": "5525e3de461352f4c88d28287161ca2272c024ac"
 		},
