@@ -213,7 +213,12 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= appConfig.app %>/index.html'],
-        ignorePath:  /\.\.\//
+        ignorePath:  /\.\.\//,
+        overrides: {
+          'socket.io-client': {
+            'main': 'socket.io.js'
+          }
+        }
       }
     },
     // Compiles TypeScript to JavaScript

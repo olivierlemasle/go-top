@@ -31,6 +31,12 @@
     },
     "socket.io-client/socket.io-client.d.ts": {
       "commit": "54f064352a3615443f7bff4198078db15e28247b"
+    },
+    "moment/moment.d.ts": {
+      "commit": "54f064352a3615443f7bff4198078db15e28247b"
+    },
+    "moment/moment-node.d.ts": {
+      "commit": "54f064352a3615443f7bff4198078db15e28247b"
     }
   }
 }

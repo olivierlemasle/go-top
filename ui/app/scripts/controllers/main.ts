@@ -1,5 +1,6 @@
 /// <reference path="../app.ts" />
 /// <reference path="../../../typings/socket.io-client/socket.io-client.d.ts" />
+/// <reference path="../../../typings/moment/moment.d.ts" />
 
 "use strict";
 
@@ -27,6 +28,8 @@ module uiApp {
       $socket.on("cpuStatMessage", function(msg: CpuStatMessage): void {
         console.log(msg);
         $scope.procs = [];
+        let time: string = moment(msg.Time).format("HH:mm:ss");
+        console.log(time);
         for (let n: number = 0; n < msg.CPULoad.length; n++) {
           let proc: Proc = { "id": n, "load": msg.CPULoad[n] };
           $scope.procs.push(proc);
