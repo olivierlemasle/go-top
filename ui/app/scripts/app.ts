@@ -20,6 +20,7 @@ interface IMainScope extends ng.IScope {
 class UiCtrl {
   constructor(private $scope: IMainScope) {
     $scope.menus = [
+      new Menu("CPU Usage", "#/cpu"),
       new Menu("About", "#/about"),
       new Menu("Help", "#/help")
     ];
@@ -39,6 +40,11 @@ angular.module("uiApp", [
         controller: "MainCtrl"
       })
       .when("/about", {
+        templateUrl: "views/about.html",
+        controller: "AboutCtrl",
+        controllerAs: "about"
+      })
+      .when("/help", {
         templateUrl: "views/about.html",
         controller: "AboutCtrl",
         controllerAs: "about"
