@@ -218,6 +218,12 @@ module.exports = function (grunt) {
         overrides: {
           'socket.io-client': {
             'main': 'socket.io.js'
+          },
+          'epoch': {
+            'main': [
+              'dist/js/epoch.js',
+              'dist/css/epoch.css'
+            ]
           }
         }
       }
