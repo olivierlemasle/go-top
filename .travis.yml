@@ -1,9 +1,9 @@
 language: go
 sudo: false
 go: 1.5
-node_js: 4.0
 install: true
 before_script:
+  - nvm install 4.0
   - |-
     echo "{\"token\": \"$GITHUB_TOKEN\"}" > ui/.tsdrc
   - ui/install.sh
