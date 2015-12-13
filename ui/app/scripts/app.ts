@@ -29,7 +29,8 @@ class UiCtrl {
 angular.module("uiApp", [
   "ngRoute",
   "ngMaterial",
-  "btford.socket-io"
+  "btford.socket-io",
+  "ng.epoch"
 ])
   .config(($routeProvider: ng.route.IRouteProvider) => {
     $routeProvider

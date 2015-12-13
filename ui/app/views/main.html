@@ -1,3 +1,9 @@
 <ul>
   <li ng-repeat="proc in procs">CPU {{proc.id}}: {{proc.load}} %</li>
 </ul>
+<epoch-live-line chart-height="200"
+                 chart-data="realtimeLine"
+                 chart-stream="realtimeLineFeed"
+                 chart-axes="['right', 'bottom', 'left']"
+                 chart-range="[0, 120]" >
+</epoch-live-line>
