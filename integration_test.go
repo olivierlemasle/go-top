@@ -1,4 +1,4 @@
-package tests
+package main_test
 
 import (
 	"io/ioutil"
@@ -7,13 +7,13 @@ import (
 	"strings"
 	"testing"
 
-	main "github.com/olivierlemasle/go-top"
+	"github.com/olivierlemasle/go-top"
 )
 
 func TestWebServer(t *testing.T) {
 	resp := httptest.NewRecorder()
 
-	main.CreateServer("../ui/dist")
+	main.CreateServer("ui/dist")
 
 	req, err := http.NewRequest("GET", "/", nil)
 	if err != nil {
