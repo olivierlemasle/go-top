@@ -1,6 +1,7 @@
 /// <reference path="../app.ts" />
 /// <reference path="../../../typings/socket.io-client/socket.io-client.d.ts" />
 /// <reference path="../../../typings/moment/moment.d.ts" />
+/// <reference path="../../../typings/d3/d3.d.ts" />
 
 "use strict";
 
@@ -15,6 +16,7 @@ module uiApp {
   export class Proc {
     id: number;
     load: number;
+    color: string;
   }
 
   export interface IMainScope extends ng.IScope {
@@ -41,6 +43,7 @@ module uiApp {
   export class MainCtrl {
 
     constructor(private $scope: IMainScope, private $socket: SocketIOClient.Socket) {
+      let colors: string[] = d3.scale.category10().range();
       $scope.procs = [];
       $scope.realtimeLine = [];
       $scope.realtimeLineFeed = [];
@@ -57,7 +60,7 @@ module uiApp {
         $scope.procs = [];
         $scope.realtimeLineFeed = [];
         for (let n: number = 0; n < msg.CPULoad.length; n++) {
-          let proc: Proc = { id: n, load: msg.CPULoad[n] };
+          let proc: Proc = { id: n, load: msg.CPULoad[n], color: colors[n] };
           $scope.procs.push(proc);
           $scope.realtimeLineFeed.push(new Point(moment(msg.Time), msg.CPULoad[n]));
         }

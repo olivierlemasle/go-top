@@ -11,6 +11,18 @@ body {
 
 .cpuProc {
   float:left;
-  width: 8em;
+  width: 12em;
   display: block;
+}
+
+.legendColor {
+  width: 1.5em;
+  height: 1em;
+  float: left;
+  margin: 1em 0.5em;
+}
+
+.cpuProc span {
+  float: left;
+  margin: 1em 0.5em;
 }

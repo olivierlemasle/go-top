@@ -6,5 +6,5 @@
 </epoch-live-line>
 
 <ul>
-  <li ng-repeat="proc in procs" class="cpuProc">CPU {{proc.id}}: {{proc.load}} %</li>
+  <li ng-repeat="proc in procs" class="cpuProc"><div class="legendColor" style="background-color:{{proc.color}}">&nbsp;</div><span>CPU {{proc.id}}: {{proc.load}} %</span></li>
 </ul>
