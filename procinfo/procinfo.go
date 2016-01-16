@@ -1,3 +1,6 @@
+// Package procinfo contains methods to get statics on system usage.
+//
+// It uses github.com/c9s/goprocinfo/linux to read and parse procfs.
 package procinfo
 
 import (
@@ -6,7 +9,7 @@ import (
 	linuxproc "github.com/olivierlemasle/go-top/Godeps/_workspace/src/github.com/c9s/goprocinfo/linux"
 )
 
-// GetCPUNumber ...
+// GetCPUNumber returns the number of CPU (from /proc/cpuinfo)
 func GetCPUNumber() (int, error) {
 	info, err := linuxproc.ReadCPUInfo("/proc/cpuinfo")
 	if err != nil {
@@ -15,7 +18,9 @@ func GetCPUNumber() (int, error) {
 	return info.NumCPU(), nil
 }
 
-// GetCPULoad ...
+// GetCPULoad returns the CPU load, as an array of integer. For each CPU, the integer value is the usage percentage.
+//
+// This method get info from /proc/stat over 500 milliseconds.
 func GetCPULoad() ([]int, error) {
 	oldStat, err := linuxproc.ReadStat("/proc/stat")
 	if err != nil {

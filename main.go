@@ -11,7 +11,7 @@ import (
 	"github.com/olivierlemasle/go-top/procinfo"
 )
 
-const version string = "0.0.1"
+const version string = "0.0.3"
 
 // CPUStat contains the CPU load per CPU
 type CPUStat struct {
