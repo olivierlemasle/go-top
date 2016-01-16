@@ -1,8 +1,11 @@
 # go-top
 
 [![Build Status](https://travis-ci.org/olivierlemasle/go-top.svg?branch=master)](https://travis-ci.org/olivierlemasle/go-top)
+[![GoDoc](https://godoc.org/github.com/olivierlemasle/go-top?status.svg)](https://godoc.org/github.com/olivierlemasle/go-top)
 
-This project is just a sort of test project I did to learn:
+__go-top__ is a Web-based system monitor for Linux.
+
+This project is just an experiment I did to learn:
 
 - [Go](https://golang.org/)
 - Linux procfs
@@ -11,7 +14,7 @@ This project is just a sort of test project I did to learn:
 - [Grunt](http://gruntjs.com/)
 - [socket.io](http://socket.io/)
 
-This is *not* a useful project!
+This is ___not___ a useful project!
 
 ## Use it ##
 
