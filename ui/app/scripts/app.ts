@@ -21,8 +21,8 @@ class UiCtrl {
   constructor(private $scope: IMainScope) {
     $scope.menus = [
       new Menu("CPU Usage", "#/cpu"),
-      new Menu("About", "#/about"),
-      new Menu("Help", "#/help")
+      new Menu("Memory Usage", "#/memory"),
+      new Menu("About", "#/about")
     ];
   }
 }
@@ -35,22 +35,23 @@ angular.module("uiApp", [
 ])
   .config(($routeProvider: ng.route.IRouteProvider) => {
     $routeProvider
-      .when("/", {
-        templateUrl: "views/main.html",
-        controller: "MainCtrl"
+      .when("/cpu", {
+        templateUrl: "views/cpu.html",
+        controller: "CpuCtrl",
+        controllerAs: "cpu"
+      })
+      .when("/memory", {
+        templateUrl: "views/memory.html",
+        controller: "MemoryCtrl",
+        controllerAs: "memory"
       })
       .when("/about", {
         templateUrl: "views/about.html",
         controller: "AboutCtrl",
         controllerAs: "about"
       })
-      .when("/help", {
-        templateUrl: "views/about.html",
-        controller: "AboutCtrl",
-        controllerAs: "about"
-      })
       .otherwise({
-        redirectTo: "/"
+        redirectTo: "/cpu"
       });
   })
   .factory("$socket", function(socketFactory: any): any {

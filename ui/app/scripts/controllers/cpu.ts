@@ -19,7 +19,7 @@ module uiApp {
     color: string;
   }
 
-  export interface IMainScope extends ng.IScope {
+  export interface ICpuScope extends ng.IScope {
     procs: Array<Proc>;
     realtimeLine: Serie[];
     realtimeLineFeed: Point[];
@@ -40,9 +40,9 @@ module uiApp {
     values: Point[];
   }
 
-  export class MainCtrl {
+  export class CpuCtrl {
 
-    constructor(private $scope: IMainScope, private $socket: SocketIOClient.Socket) {
+    constructor(private $scope: ICpuScope, private $socket: SocketIOClient.Socket) {
       let colors: string[] = d3.scale.category10().range();
       $scope.procs = [];
       $scope.realtimeLine = [];
@@ -56,6 +56,7 @@ module uiApp {
         };
         $scope.realtimeLineFeed[i] = point;
       }
+
       $socket.on("cpuStatMessage", function(msg: CpuStatMessage): void {
         $scope.procs = [];
         $scope.realtimeLineFeed = [];
@@ -70,4 +71,4 @@ module uiApp {
 }
 
 angular.module("uiApp")
-  .controller("MainCtrl", ["$scope", "$socket", uiApp.MainCtrl]);
+  .controller("CpuCtrl", ["$scope", "$socket", uiApp.CpuCtrl]);

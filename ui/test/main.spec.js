@@ -16,13 +16,13 @@ describe('Go-Top main page', function() {
     expect(menus.first().getText()).toEqual('CPU USAGE');
   });
 
-  it('should navigate to the /About page when clicking on the first menu', function() {
+  it('should navigate to the /cpu page when clicking on the first menu', function() {
     element.all(by.repeater('menu in menus')).first().element(by.tagName('a')).click();
-    expect(browser.getLocationAbsUrl()).toEqual('/');
+    expect(browser.getLocationAbsUrl()).toEqual('/cpu');
   });
 
-  it('should stay on the home page when clicking on the last menu', function() {
+  it('should stay on the About page when clicking on the last menu', function() {
     element.all(by.repeater('menu in menus')).last().element(by.tagName('a')).click();
-    expect(browser.getLocationAbsUrl()).toEqual('/help');
+    expect(browser.getLocationAbsUrl()).toEqual('/about');
   });
 });

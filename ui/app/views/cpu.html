@@ -1,3 +1,5 @@
+<h2>CPU Usage</h2>
+
 <epoch-live-line chart-height="400"
                  chart-data="realtimeLine"
                  chart-stream="realtimeLineFeed"
@@ -6,5 +8,8 @@
 </epoch-live-line>
 
 <ul>
-  <li ng-repeat="proc in procs" class="cpuProc"><div class="legendColor" style="background-color:{{proc.color}}">&nbsp;</div><span>CPU {{proc.id}}: {{proc.load}} %</span></li>
+  <li ng-repeat="proc in procs" class="cpuProc">
+    <div class="legendColor" style="background-color:{{proc.color}}">&nbsp;</div>
+    <span>CPU {{proc.id}}: {{proc.load}} %</span>
+  </li>
 </ul>
