@@ -1,13 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/olivierlemasle/go-top/Godeps/_workspace/src/github.com/googollee/go-socket.io"
 	"github.com/olivierlemasle/go-top/procinfo"
 )
+
+const version string = "0.0.1"
 
 // CPUStat contains the CPU load per CPU
 type CPUStat struct {
@@ -44,6 +48,18 @@ func CreateServer(uiPath string) {
 	// serve assets
 	log.Printf("Serving %v on %v", uiPath, "/")
 	http.Handle("/", http.FileServer(http.Dir(uiPath)))
+
+	// serve "API"
+	http.HandleFunc("/api/version", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, version)
+	})
+	http.HandleFunc("/api/cpuNumber", func(w http.ResponseWriter, r *http.Request) {
+		cpuNumber, err := procinfo.GetCPUNumber()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Fprintf(w, strconv.Itoa(cpuNumber))
+	})
 
 	server, err := socketio.NewServer(nil)
 	if err != nil {

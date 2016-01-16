@@ -38,22 +38,24 @@ angular.module("uiApp", [
       .when("/cpu", {
         templateUrl: "views/cpu.html",
         controller: "CpuCtrl",
-        controllerAs: "cpu"
+        resolve: {
+          $cpuNumber: function($http: ng.IHttpService): ng.IPromise<number> {
+            return $http.get("/api/cpuNumber")
+                        .then((response: ng.IHttpPromiseCallbackArg<Number>) => response.data);
+          }
+        }
       })
       .when("/memory", {
         templateUrl: "views/memory.html",
         controller: "MemoryCtrl",
-        controllerAs: "memory"
       })
       .when("/about", {
         templateUrl: "views/about.html",
         controller: "AboutCtrl",
-        controllerAs: "about"
       })
       .otherwise({
         redirectTo: "/cpu"
       });
-  })
-  .factory("$socket", function(socketFactory: any): any {
+  }).factory("$socket", (socketFactory: any) => {
     return socketFactory();
   }).controller("uiCtrl", ["$scope", UiCtrl]);

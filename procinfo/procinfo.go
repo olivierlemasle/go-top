@@ -6,6 +6,15 @@ import (
 	linuxproc "github.com/olivierlemasle/go-top/Godeps/_workspace/src/github.com/c9s/goprocinfo/linux"
 )
 
+// GetCPUNumber ...
+func GetCPUNumber() (int, error) {
+	info, err := linuxproc.ReadCPUInfo("/proc/cpuinfo")
+	if err != nil {
+		return 0, err
+	}
+	return info.NumCPU(), nil
+}
+
 // GetCPULoad ...
 func GetCPULoad() ([]int, error) {
 	oldStat, err := linuxproc.ReadStat("/proc/stat")

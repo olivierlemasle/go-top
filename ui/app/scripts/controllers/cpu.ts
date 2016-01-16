@@ -42,13 +42,13 @@ module uiApp {
 
   export class CpuCtrl {
 
-    constructor(private $scope: ICpuScope, private $socket: SocketIOClient.Socket) {
+    constructor(private $scope: ICpuScope, private $socket: SocketIOClient.Socket, private $cpuNumber: number) {
       let colors: string[] = d3.scale.category10().range();
       $scope.procs = [];
       $scope.realtimeLine = [];
       $scope.realtimeLineFeed = [];
       let now: moment.Moment = moment();
-      for (let i: number = 0; i < 8; i++) {
+      for (let i: number = 0; i < $cpuNumber; i++) {
         let point: Point = new Point(now, 0);
         $scope.realtimeLine[i] = {
           label: "Core " + i,
@@ -71,4 +71,4 @@ module uiApp {
 }
 
 angular.module("uiApp")
-  .controller("CpuCtrl", ["$scope", "$socket", uiApp.CpuCtrl]);
+  .controller("CpuCtrl", ["$scope", "$socket", "$cpuNumber", uiApp.CpuCtrl]);
