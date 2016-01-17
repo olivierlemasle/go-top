@@ -1,6 +1,3 @@
-// Package procinfo contains methods to get statics on system usage.
-//
-// It uses github.com/c9s/goprocinfo/linux to read and parse procfs.
 package procinfo
 
 import (
@@ -36,25 +33,34 @@ func GetCPULoad() ([]int, error) {
 
 	var res []int
 
-	for i, s := range newStat.CPUStats {
-		previous := oldStat.CPUStats[i]
-
-		prevIdle := previous.Idle + previous.IOWait
-		idle := s.Idle + s.IOWait
-
-		prevNonIdle := previous.User + previous.Nice + previous.System + previous.IRQ + previous.SoftIRQ + previous.Steal
-		nonIdle := s.User + s.Nice + s.System + s.IRQ + s.SoftIRQ + s.Steal
-
-		prevTotal := prevIdle + prevNonIdle
-		total := idle + nonIdle
-
-		totald := total - prevTotal
-		idled := idle - prevIdle
-
-		CPUPercentage := int(float64(totald-idled) / float64(totald) * 100)
-
-		res = append(res, CPUPercentage)
+	for i, currentStat := range newStat.CPUStats {
+		previousStat := oldStat.CPUStats[i]
+		res = append(res, getCPUUsagePercentage(previousStat, currentStat))
 	}
 
 	return res, nil
+}
+
+func getCPUUsagePercentage(stat1, stat2 linuxproc.CPUStat) int {
+	idle1 := getIdle(stat1)
+	idle2 := getIdle(stat2)
+
+	used1 := getUsed(stat1)
+	used2 := getUsed(stat2)
+
+	total1 := idle1 + used1
+	total2 := idle2 + used2
+
+	totalDiff := float64(total2 - total1)
+	usedDiff := float64(used2 - used1)
+
+	return int(usedDiff / totalDiff * 100)
+}
+
+func getIdle(stat linuxproc.CPUStat) uint64 {
+	return stat.Idle + stat.IOWait
+}
+
+func getUsed(stat linuxproc.CPUStat) uint64 {
+	return stat.User + stat.Nice + stat.System + stat.IRQ + stat.SoftIRQ + stat.Steal
 }

@@ -19,7 +19,7 @@ type CPUStat struct {
 	CPULoad []int
 }
 
-func fetchInfo(ch chan *CPUStat, quit chan int) {
+func fetchInfo(cpuStats chan *CPUStat, quit chan int) {
 	for {
 		cpuLoad, err := procinfo.GetCPULoad()
 		if err != nil {
@@ -27,18 +27,18 @@ func fetchInfo(ch chan *CPUStat, quit chan int) {
 		}
 		result := CPUStat{time.Now(), cpuLoad}
 		select {
-		case ch <- &result:
+		case cpuStats <- &result:
 		case <-quit:
 			log.Println("Stop")
-			close(ch)
+			close(cpuStats)
 			return
 		}
 	}
 }
 
-func emitInfo(so socketio.Socket, ch chan *CPUStat) {
-	for t := range ch {
-		so.Emit("cpuStatMessage", t)
+func emitInfo(socket socketio.Socket, cpuStats chan *CPUStat) {
+	for t := range cpuStats {
+		socket.Emit("cpuStatMessage", t)
 		time.Sleep(time.Second)
 	}
 }
@@ -60,29 +60,35 @@ func CreateServer(uiPath string) {
 		}
 		fmt.Fprintf(w, strconv.Itoa(cpuNumber))
 	})
+	http.HandleFunc("/api/usedmem", func(w http.ResponseWriter, r *http.Request) {
+		mem, err := procinfo.GetUsedMemory()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Fprintf(w, strconv.Itoa(mem))
+	})
 
 	server, err := socketio.NewServer(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
-	server.On("connection", func(so socketio.Socket) {
+	server.On("connection", func(socket socketio.Socket) {
 		log.Println("on connection")
-		so.Join("top")
+		socket.Join("top")
 
-		ch := make(chan *CPUStat)
+		cpuStats := make(chan *CPUStat)
 		quit := make(chan int)
-		go fetchInfo(ch, quit)
-		go emitInfo(so, ch)
+		go fetchInfo(cpuStats, quit)
+		go emitInfo(socket, cpuStats)
 
-		so.On("disconnection", func() {
+		socket.On("disconnection", func() {
 			log.Println("on disconnect")
 			quit <- 0
 		})
 	})
-	server.On("error", func(so socketio.Socket, err error) {
+	server.On("error", func(socket socketio.Socket, err error) {
 		log.Println("error:", err)
 	})
-
 	log.Printf("Serving /socket.io/")
 	http.Handle("/socket.io/", server)
 }
