@@ -39,10 +39,9 @@ angular.module("uiApp", [
         templateUrl: "views/cpu.html",
         controller: "CpuCtrl",
         resolve: {
-          $cpuNumber: function($http: ng.IHttpService): ng.IPromise<number> {
-            return $http.get("/api/cpuNumber")
-                        .then((response: ng.IHttpPromiseCallbackArg<Number>) => response.data);
-          }
+          $cpuNumber: ($http: ng.IHttpService): ng.IPromise<number> => $http
+              .get("/api/cpuNumber")
+              .then((response: ng.IHttpPromiseCallbackArg<Number>) => response.data)
         }
       })
       .when("/memory", {
@@ -56,6 +55,6 @@ angular.module("uiApp", [
       .otherwise({
         redirectTo: "/cpu"
       });
-  }).factory("$socket", (socketFactory: any) => {
+  }).service("$socket", (socketFactory: any) => {
     return socketFactory();
   }).controller("uiCtrl", ["$scope", UiCtrl]);

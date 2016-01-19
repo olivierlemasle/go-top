@@ -43,6 +43,7 @@ module uiApp {
   export class CpuCtrl {
 
     constructor(private $scope: ICpuScope, private $socket: SocketIOClient.Socket, private $cpuNumber: number) {
+      $socket.emit("statRequired", "cpu");
       let colors: string[] = d3.scale.category10().range();
       $scope.procs = [];
       $scope.realtimeLine = [];

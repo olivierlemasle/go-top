@@ -12,6 +12,11 @@ module uiApp {
     used: string;
   }
 
+  class MemStatMessage {
+    Time: string;
+    UsedMemory: number;
+  }
+
   export class MemoryCtrl {
 
     createByteString(kb: number): string {
@@ -26,13 +31,14 @@ module uiApp {
       return gb + " GB";
     }
 
-    constructor(private $scope: IMemoryScope, private $http: ng.IHttpService) {
-      $http.get("/api/usedmem").success((data: number) => {
-        $scope.used = this.createByteString(data);
+    constructor(private $scope: IMemoryScope, private $socket: SocketIOClient.Socket) {
+      $socket.emit("statRequired", "mem");
+      $socket.on("memStatMessage", (msg: MemStatMessage) => {
+        $scope.used = this.createByteString(msg.UsedMemory);
       });
     }
   }
 }
 
 angular.module("uiApp")
-  .controller("MemoryCtrl", ["$scope", "$http", uiApp.MemoryCtrl]);
+  .controller("MemoryCtrl", ["$scope", "$socket", uiApp.MemoryCtrl]);

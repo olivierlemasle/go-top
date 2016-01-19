@@ -2,7 +2,7 @@
 APP_NAME := go-top
 SHA := $(shell git rev-parse --short HEAD)
 BRANCH := $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
-VER := 0.0.3
+VER := 0.0.4
 DIR=.
 VERSION = $(VER)-$(BRANCH)
 BUILD := $(SHA)-$(BRANCH)

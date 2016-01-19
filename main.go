@@ -11,7 +11,17 @@ import (
 	"github.com/olivierlemasle/go-top/procinfo"
 )
 
-const version string = "0.0.3"
+const version = "0.0.4"
+
+const (
+	cpuType = "cpu"
+	memType = "mem"
+)
+
+// StatMessage ...
+type StatMessage interface {
+	typeString() string
+}
 
 // CPUStat contains the CPU load per CPU
 type CPUStat struct {
@@ -19,26 +29,58 @@ type CPUStat struct {
 	CPULoad []int
 }
 
-func fetchInfo(cpuStats chan *CPUStat, quit chan int) {
+func (m CPUStat) typeString() string {
+	return "cpuStatMessage"
+}
+
+// MemStat ...
+type MemStat struct {
+	Time       time.Time
+	UsedMemory int
+}
+
+func (m MemStat) typeString() string {
+	return "memStatMessage"
+}
+
+func readStat(stats chan *StatMessage, requests chan string) {
+	statType := <-requests
 	for {
-		cpuLoad, err := procinfo.GetCPULoad()
-		if err != nil {
-			log.Fatal(err)
-		}
-		result := CPUStat{time.Now(), cpuLoad}
-		select {
-		case cpuStats <- &result:
-		case <-quit:
+		var result StatMessage
+		switch statType {
+		case "stop":
 			log.Println("Stop")
-			close(cpuStats)
+			close(stats)
 			return
+		case cpuType:
+			cpuLoad, err := procinfo.GetCPULoad()
+			if err != nil {
+				log.Fatal(err)
+			}
+			result = CPUStat{time.Now(), cpuLoad}
+		case memType:
+			mem, err := procinfo.GetUsedMemory()
+			if err != nil {
+				log.Fatal(err)
+			}
+			result = MemStat{time.Now(), mem}
+		default:
+			log.Printf("Not implemented: %v", statType)
+			close(stats)
+			return
+		}
+		select {
+		case stats <- &result:
+		case statType = <-requests:
 		}
 	}
 }
 
-func emitInfo(socket socketio.Socket, cpuStats chan *CPUStat) {
-	for t := range cpuStats {
-		socket.Emit("cpuStatMessage", t)
+func emitStat(socket socketio.Socket, stats chan *StatMessage, socketID string) {
+	for stat := range stats {
+		typeName := (*stat).typeString()
+		socket.Emit(typeName, stat)
+		log.Printf("%v - Emit %v", socketID, typeName)
 		time.Sleep(time.Second)
 	}
 }
@@ -60,30 +102,30 @@ func CreateServer(uiPath string) {
 		}
 		fmt.Fprintf(w, strconv.Itoa(cpuNumber))
 	})
-	http.HandleFunc("/api/usedmem", func(w http.ResponseWriter, r *http.Request) {
-		mem, err := procinfo.GetUsedMemory()
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Fprintf(w, strconv.Itoa(mem))
-	})
 
 	server, err := socketio.NewServer(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 	server.On("connection", func(socket socketio.Socket) {
-		log.Println("on connection")
+		socketID := socket.Id()
+		log.Printf("%v - Connect", socketID)
 		socket.Join("top")
 
-		cpuStats := make(chan *CPUStat)
-		quit := make(chan int)
-		go fetchInfo(cpuStats, quit)
-		go emitInfo(socket, cpuStats)
+		stats := make(chan *StatMessage)
+		requests := make(chan string)
+
+		socket.On("statRequired", func(statType string) {
+			log.Printf("%v - Stat required: %v", socketID, statType)
+			requests <- statType
+		})
+
+		go readStat(stats, requests)
+		go emitStat(socket, stats, socketID)
 
 		socket.On("disconnection", func() {
-			log.Println("on disconnect")
-			quit <- 0
+			log.Printf("%v - Disconnect", socketID)
+			requests <- "stop"
 		})
 	})
 	server.On("error", func(socket socketio.Socket, err error) {
