@@ -11,7 +11,7 @@ import (
 	"github.com/olivierlemasle/go-top/procinfo"
 )
 
-const version = "0.0.4"
+const version = "0.0.5"
 
 const (
 	cpuType = "cpu"
