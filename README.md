@@ -8,7 +8,7 @@ __go-top__ is a Web-based system monitor for Linux.
 This project is just an experiment I did to learn:
 
 - [Go](https://golang.org/)
-- Linux procfs
+- [Linux procfs](http://www.mjmwired.net/kernel/Documentation/filesystems/proc.txt)
 - [TypeScript](http://www.typescriptlang.org/)
 - [AngularJS](https://angularjs.org/)
 - [Grunt](http://gruntjs.com/)

@@ -1,4 +1,5 @@
 /// <reference path="../app.ts" />
+/// <reference path="../shared.ts" />
 /// <reference path="../../../typings/socket.io-client/socket.io-client.d.ts" />
 /// <reference path="../../../typings/moment/moment.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
@@ -23,21 +24,6 @@ module uiApp {
     procs: Array<Proc>;
     realtimeLine: Serie[];
     realtimeLineFeed: Point[];
-  }
-
-  export class Point {
-    time: number;
-    y: number;
-
-    constructor(time: moment.Moment, y: number) {
-      this.time = time.unix();
-      this.y = y;
-    }
-  }
-
-  export class Serie {
-    label: string;
-    values: Point[];
   }
 
   export class CpuCtrl {

@@ -2,11 +2,11 @@ package procinfo
 
 import linuxproc "github.com/olivierlemasle/go-top/Godeps/_workspace/src/github.com/c9s/goprocinfo/linux"
 
-// GetUsedMemory returns the physical used memory in kb
-func GetUsedMemory() (int, error) {
+// GetUsedAndAvailableMemory returns the physical used memory and available memory in kb
+func GetUsedAndAvailableMemory() (int, int, error) {
 	memInfo, err := linuxproc.ReadMemInfo("/proc/meminfo")
 	if err != nil {
-		return 0, err
+		return 0, 0, err
 	}
 
 	total := memInfo.MemTotal
@@ -16,6 +16,7 @@ func GetUsedMemory() (int, error) {
 
 	used := total - free - buffers - cache
 	usedInt := int(used)
+	availableInt := int(free + buffers + cache)
 
-	return usedInt, nil
+	return usedInt, availableInt, nil
 }

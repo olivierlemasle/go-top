@@ -35,8 +35,9 @@ func (m CPUStat) typeString() string {
 
 // MemStat ...
 type MemStat struct {
-	Time       time.Time
-	UsedMemory int
+	Time            time.Time
+	UsedMemory      int
+	AvailableMemory int
 }
 
 func (m MemStat) typeString() string {
@@ -59,11 +60,11 @@ func readStat(stats chan *StatMessage, requests chan string) {
 			}
 			result = CPUStat{time.Now(), cpuLoad}
 		case memType:
-			mem, err := procinfo.GetUsedMemory()
+			used, available, err := procinfo.GetUsedAndAvailableMemory()
 			if err != nil {
 				log.Fatal(err)
 			}
-			result = MemStat{time.Now(), mem}
+			result = MemStat{time.Now(), used, available}
 		default:
 			log.Printf("Not implemented: %v", statType)
 			close(stats)

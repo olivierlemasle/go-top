@@ -1,3 +1,10 @@
 <h2>Memory Usage</h2>
 
-<p>Used memory: {{used}}</p>
+<epoch-live-line chart-height="400"
+                 chart-data="realtimeLine"
+                 chart-stream="realtimeLineFeed"
+                 chart-axes="['right', 'bottom', 'left']"
+                 chart-range="[0, 100]" >
+</epoch-live-line>
+
+<p>Used: {{used}} ({{percent}} %) on a total of {{total}}.</p>
