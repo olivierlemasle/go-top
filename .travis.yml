@@ -2,7 +2,7 @@ language: go
 sudo: false
 go: 1.5
 before_script:
-  - nvm install 4.0
+  - nvm install 5.2.0
   - |-
     echo "{\"token\": \"$GITHUB_TOKEN\"}" > ui/.tsdrc
 script: make dist
