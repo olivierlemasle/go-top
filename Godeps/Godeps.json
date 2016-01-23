@@ -4,20 +4,20 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/c9s/goprocinfo/linux",
-			"Rev": "14038397a16323b61dee2f7c360c0e0b764ac2f9"
+			"Rev": "19cb9f127a9c8d2034cf59ccb683cdb94b9deb6c"
 		},
 		{
 			"ImportPath": "github.com/googollee/go-engine.io",
-			"Rev": "5525e3de461352f4c88d28287161ca2272c024ac"
+			"Rev": "a66cf68b24e56df0cacdc6041b93742f983a296a"
 		},
 		{
 			"ImportPath": "github.com/googollee/go-socket.io",
-			"Comment": "0.9.x-37-g76e104d",
-			"Rev": "76e104d69892d45b272728110e61d4981408787a"
+			"Comment": "0.9.x-51-g14bb3d0",
+			"Rev": "14bb3d0368089a74cb52164a7a697cf404bda9c6"
 		},
 		{
 			"ImportPath": "github.com/gorilla/websocket",
-			"Rev": "39cd638460acf1c01aaac38effc6e54ee7e04bca"
+			"Rev": "5434f8b69b7f4f4ef0120e04c046cd6ce54ef0dd"
 		}
 	]
 }

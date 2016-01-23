@@ -102,8 +102,35 @@ func (e *CloseError) Error() string {
 	return "websocket: close " + strconv.Itoa(e.Code) + " " + e.Text
 }
 
+// IsCloseError returns boolean indicating whether the error is a *CloseError
+// with one of the specified codes.
+func IsCloseError(err error, codes ...int) bool {
+	if e, ok := err.(*CloseError); ok {
+		for _, code := range codes {
+			if e.Code == code {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// IsUnexpectedCloseError returns boolean indicating whether the error is a
+// *CloseError with a code not in the list of expected codes.
+func IsUnexpectedCloseError(err error, expectedCodes ...int) bool {
+	if e, ok := err.(*CloseError); ok {
+		for _, code := range expectedCodes {
+			if e.Code == code {
+				return false
+			}
+		}
+		return true
+	}
+	return false
+}
+
 var (
-	errWriteTimeout        = &netError{msg: "websocket: write timeout", timeout: true}
+	errWriteTimeout        = &netError{msg: "websocket: write timeout", timeout: true, temporary: true}
 	errUnexpectedEOF       = &CloseError{Code: CloseAbnormalClosure, Text: io.ErrUnexpectedEOF.Error()}
 	errBadWriteOpCode      = errors.New("websocket: bad write message type")
 	errWriteClosed         = errors.New("websocket: write closed")
@@ -300,7 +327,7 @@ func (c *Conn) WriteControl(messageType int, data []byte, deadline time.Time) er
 	if n != 0 && n != len(buf) {
 		c.conn.Close()
 	}
-	return err
+	return hideTempErr(err)
 }
 
 // NextWriter returns a writer for the next message to send.  The writer's
@@ -308,9 +335,6 @@ func (c *Conn) WriteControl(messageType int, data []byte, deadline time.Time) er
 //
 // There can be at most one open writer on a connection. NextWriter closes the
 // previous writer if the application has not already done so.
-//
-// The NextWriter method and the writers returned from the method cannot be
-// accessed by more than one goroutine at a time.
 func (c *Conn) NextWriter(messageType int) (io.WriteCloser, error) {
 	if c.writeErr != nil {
 		return nil, c.writeErr
@@ -694,8 +718,9 @@ func (c *Conn) handleProtocolError(message string) error {
 // There can be at most one open reader on a connection. NextReader discards
 // the previous message if the application has not already consumed it.
 //
-// The NextReader method and the readers returned from the method cannot be
-// accessed by more than one goroutine at a time.
+// Errors returned from NextReader are permanent. If NextReader returns a
+// non-nil error, then all subsequent calls to NextReader return the same
+// error.
 func (c *Conn) NextReader() (messageType int, r io.Reader, err error) {
 
 	c.readSeq++
@@ -794,8 +819,13 @@ func (c *Conn) SetReadLimit(limit int64) {
 func (c *Conn) SetPingHandler(h func(appData string) error) {
 	if h == nil {
 		h = func(message string) error {
-			c.WriteControl(PongMessage, []byte(message), time.Now().Add(writeWait))
-			return nil
+			err := c.WriteControl(PongMessage, []byte(message), time.Now().Add(writeWait))
+			if err == ErrCloseSent {
+				return nil
+			} else if e, ok := err.(net.Error); ok && e.Temporary() {
+				return nil
+			}
+			return err
 		}
 	}
 	c.handlePing = h
