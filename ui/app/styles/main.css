@@ -9,6 +9,28 @@ body {
   padding: 0;
 }
 
+.menuButton {
+  width: 100%;
+  text-align: left;
+}
+
+md-sidenav,
+md-sidenav.md-locked-open,
+md-sidenav.md-closed.md-locked-open-add-active {
+  min-width: 250px;
+  width: 250px;
+  background-color: #5c6bc0;
+}
+
+md-sidenav md-content {
+  background: transparent;
+}
+
+md-sidenav ul {
+  padding: 5px;
+  color: #fff;
+}
+
 .cpuProc {
   float:left;
   width: 11em;
@@ -28,6 +50,6 @@ body {
 }
 
 .readme {
-  background-color: #EBEDF6;
+  background-color: #e8eaf6;
   padding: 1px 1em;
 }

@@ -6,10 +6,10 @@
   "bundle": "typings/tsd.d.ts",
   "installed": {
     "jquery/jquery.d.ts": {
-      "commit": "f3244190e20af6901e865f4cc58127d19216baa1"
+      "commit": "7fffbd3e040a93c244777e3be04cd6223ac69301"
     },
     "angularjs/angular.d.ts": {
-      "commit": "f3244190e20af6901e865f4cc58127d19216baa1"
+      "commit": "7fffbd3e040a93c244777e3be04cd6223ac69301"
     },
     "angularjs/angular-resource.d.ts": {
       "commit": "aadd63ecae3feb76ea2d4be80511e266b5c2c4a7"
@@ -40,6 +40,9 @@
     },
     "d3/d3.d.ts": {
       "commit": "40c60850ad6c8175a62d5ab48c4e016ea5b3dffe"
+    },
+    "angular-material/angular-material.d.ts": {
+      "commit": "7fffbd3e040a93c244777e3be04cd6223ac69301"
     }
   }
 }
