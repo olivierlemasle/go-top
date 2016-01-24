@@ -13,13 +13,18 @@ describe('Go-Top main page', function() {
     expect(browser.getTitle()).toEqual('Go-Top');
   });
 
-  it('should have some menus', function() {
-    var menus = element.all(by.repeater('menu in menus'));
-    expect(menus.count()).toBeGreaterThan(1);
-    expect(menus.first().getText()).toEqual('CPU USAGE');
+  it('should have /cpu has the home page', function() {
+    expect(browser.getLocationAbsUrl()).toEqual('/cpu');
   });
 
-  it('should stay on the /cpu page when clicking on the first menu', function() {
+  it('should have some menus', function() {
+    var menus = element.all(by.repeater('menu in menus'));
+    expect(menus.count()).toBeGreaterThan(2);
+    expect(menus.first().getText()).toEqual('CPU USAGE');
+    expect(menus.last().getText()).toEqual('ABOUT');
+  });
+
+  it('should show the CPU page when clicking on the first menu', function() {
     element.all(by.repeater('menu in menus')).first().element(by.tagName('a')).click();
     expect(browser.getLocationAbsUrl()).toEqual('/cpu');
   });
