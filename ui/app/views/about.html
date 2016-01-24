@@ -1,5 +1,42 @@
-<p>This is a work in progress.</p>
+<h2 class="md-headline">About Go-top</h2>
+
+<h3 class="md-subhead" style="font-style:italic">This is a work in progress!</h3>
 
 <p>Version: {{version}}</p>
 
-<p><a href="https://github.com/olivierlemasle/go-top">More information</a></p>
+<md-content class="md-padding" layout="column" layout-gt-md="row">
+  <div flex flex-gt-md="50">
+    <md-card >
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">What is go-top?</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <p>go-top is a web-based system monitor for Linux. Its primary goal is to experiment with some technologies: Go, TypeScript, AngularJS, etc.</p>
+        <div ng-bind-html="readme" class="readme" ng-show="hasReadme"></div>
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button ng-click="toggleInfo()">{{hasReadme ? 'Less information' : 'More information'}}</md-button>
+        <md-button ng-href="{{website}}">See on GitHub</md-button>
+      </md-card-actions>
+    </md-card>
+  </div>
+
+  <div flex flex-gt-md="50">
+    <md-card>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Latest release</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <div flex>Version {{latest.tag}}</div>
+        <div flex class="md-caption">Published {{latest.time}}</div>
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button ng-href="{{latest.url}}">Go to release</md-button>
+      </md-card-actions>
+    </md-card>
+  </div>
+</md-content>

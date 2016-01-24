@@ -10,10 +10,13 @@ describe('App ontrollers', function() {
     beforeEach(inject(function ($controller, $httpBackend, $http) {
       scope = {};
       httpBackend = $httpBackend;
+      httpBackend.whenJSONP(/https:\/\/api\.github\.com\/*/).respond(function(method, url, data, headers, params) {
+        return '';
+      });
       ctrl = $controller('AboutCtrl', {$scope: scope, $http: $http});
     }));
 
-    it("should display the go-top version", function () {
+    it('should display the go-top version', function () {
       var version = '0.0.3';
       httpBackend.when('GET', '/api/version').respond(version);
       httpBackend.flush();

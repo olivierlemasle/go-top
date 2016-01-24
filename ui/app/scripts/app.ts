@@ -29,6 +29,8 @@ class UiCtrl {
 
 angular.module("uiApp", [
   "ngRoute",
+  "ngSanitize",
+  "ngAnimate",
   "ngMaterial",
   "btford.socket-io",
   "ng.epoch"

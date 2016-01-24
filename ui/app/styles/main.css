@@ -26,3 +26,8 @@ body {
   float: left;
   margin: 1em 0.5em;
 }
+
+.readme {
+  background-color: #EBEDF6;
+  padding: 1px 1em;
+}
