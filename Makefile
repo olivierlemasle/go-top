@@ -35,6 +35,7 @@ ui/dist:
 	$(MAKE) -C ui build
 
 test:
+	go install -v ./...
 	$(MAKE) -C ui
 	go test -v ./...
 

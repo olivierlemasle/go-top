@@ -13,12 +13,21 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   // Automatically load required Grunt tasks
+  // Search a Grunt plugin from the task name, in the following order:
+  // 1. node_modules/grunt-contrib-task-name
+  // 2. node_modules/grunt-task-name
+  // 3. node_modules/task-name
   require('jit-grunt')(grunt, {
+    // Static mappings (because the module has not the required name):
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    protractor: 'grunt-protractor-runner'
+    protractor: 'grunt-protractor-runner',
+    configureProxies: 'grunt-connect-proxy'
   });
+
+  // Loads connect 'middlewares'
   var serveStatic = require('serve-static');
+  var proxyRequest = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
   // Configurable paths for the application
   var appConfig = {
@@ -65,6 +74,16 @@ module.exports = function (grunt) {
       }
     },
 
+    // The integration server
+    run: {
+      integrationServer: {
+        options: {
+          wait: false
+        },
+        cmd: 'go-top'
+      }
+    },
+
     // The actual grunt server settings
     connect: {
       options: {
@@ -73,6 +92,11 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
+      proxies: [{
+        context: '/',
+        host: 'localhost',
+        port: 8080
+      }],
       livereload: {
         options: {
           open: true,
@@ -87,7 +111,8 @@ module.exports = function (grunt) {
                 '/app/styles',
                 serveStatic('./app/styles')
               ),
-              serveStatic(appConfig.app)
+              serveStatic(appConfig.app),
+              proxyRequest
             ];
           }
         }
@@ -103,7 +128,8 @@ module.exports = function (grunt) {
                 '/bower_components',
                 serveStatic('./bower_components')
               ),
-              serveStatic(appConfig.app)
+              serveStatic(appConfig.app),
+              proxyRequest
             ];
           }
         }
@@ -311,32 +337,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // The following *-min tasks will produce minified files in the dist folder
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= appConfig.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= appConfig.dist %>/scripts/scripts.js': [
-    //         '<%= appConfig.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
     imagemin: {
       dist: {
         files: [{
@@ -455,6 +455,12 @@ module.exports = function (grunt) {
         webdriverManagerUpdate: true
       },
       run: {}
+    },
+
+    karma: {
+      unit: {
+        configFile: 'test/karma.conf.js'
+      }
     }
   });
 
@@ -470,6 +476,8 @@ module.exports = function (grunt) {
       'tsd:refresh',
       'concurrent:server',
       'postcss:server',
+      'run:integrationServer',
+      'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);
@@ -486,8 +494,12 @@ module.exports = function (grunt) {
     'tsd:refresh',
     'concurrent:test',
     'postcss',
+    'run:integrationServer',
+    'configureProxies:server',
     'connect:test',
-    'protractor:run'
+    'karma:unit',
+    'protractor:run',
+    'stop:integrationServer'
   ]);
 
   grunt.registerTask('build', [
