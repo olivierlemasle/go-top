@@ -26,7 +26,7 @@ func TestWebServer(t *testing.T) {
 	} else {
 		if strings.Contains(string(p), "Error") {
 			t.Errorf("header response shouldn't return error: %s", p)
-		} else if !strings.Contains(string(p), `<body ng-app="uiApp" ng-controller="uiCtrl">`) {
+		} else if !strings.Contains(string(p), `<body ng-app="uiApp"`) {
 			t.Errorf("header response doen't match:\n%s", p)
 		}
 	}
