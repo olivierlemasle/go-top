@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/olivierlemasle/go-top.svg?branch=master)](https://travis-ci.org/olivierlemasle/go-top)
 [![GoDoc](https://godoc.org/github.com/olivierlemasle/go-top?status.svg)](https://godoc.org/github.com/olivierlemasle/go-top)
+[![GoReportCard](https://goreportcard.com/badge/github.com/olivierlemasle/go-top)](https://goreportcard.com/report/github.com/olivierlemasle/go-top)
 
 __go-top__ is a Web-based system monitor for Linux.
 
