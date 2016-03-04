@@ -24,14 +24,14 @@ This is ___not___ a useful project!
 
 - Uncompress it:
 
-      tar -xvf go-top.tar.gz
+        tar -xvf go-top.tar.gz
 
 - Go into the new directory:
 
-      cd go-top
+        cd go-top
 
 - And execute:
 
-      ./go-top
+        ./go-top
 
 - Then open in a browser: http://127.0.0.1:8080/
