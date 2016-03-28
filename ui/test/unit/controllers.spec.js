@@ -10,6 +10,11 @@ describe('App ontrollers', function() {
     beforeEach(inject(function ($controller, $httpBackend, $http) {
       scope = {};
       httpBackend = $httpBackend;
+
+      // Default route
+      $httpBackend.whenGET('views/cpu.html').respond('');
+      $httpBackend.whenGET('/api/cpuNumber').respond('');
+
       httpBackend.whenJSONP(/https:\/\/api\.github\.com\/*/).respond(function(method, url, data, headers, params) {
         return '';
       });
