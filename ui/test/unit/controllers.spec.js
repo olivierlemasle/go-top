@@ -29,4 +29,33 @@ describe('App ontrollers', function() {
     });
 
   });
+
+  describe('MemoryCtrl', function() {
+    var scope, ctrl;
+
+    beforeEach(module('uiApp'));
+
+    beforeEach(inject(function($controller){
+      scope = {};
+      ctrl = $controller('MemoryCtrl', { $scope: scope });
+    }));
+
+    it('should convert kilobytes to the proper unit', function() {
+      var kb = 64;
+      expect(ctrl.createByteString(kb)).toBe('64 KB');
+
+      kb = 2048;
+      expect(ctrl.createByteString(kb)).toBe('2 MB');
+
+      kb = 5 * 1024 * 1024;
+      expect(ctrl.createByteString(kb)).toBe('5 GB');
+
+      kb = 525.4526845 * 1024;
+      expect(ctrl.createByteString(kb)).toBe('525.45 MB');
+
+      kb = 13.426 * 1024 * 1024;
+      expect(ctrl.createByteString(kb)).toBe('13.43 GB');
+    });
+
+  });
 });
