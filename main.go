@@ -12,6 +12,7 @@ import (
 )
 
 const version = "0.0.7"
+const stop = "stop"
 
 const (
 	cpuType = "cpu"
@@ -49,7 +50,7 @@ func readStat(stats chan *StatMessage, requests chan string) {
 	for {
 		var result StatMessage
 		switch statType {
-		case "stop":
+		case stop:
 			log.Println("Stop")
 			close(stats)
 			return
@@ -126,7 +127,7 @@ func CreateServer(uiPath string) {
 
 		socket.On("disconnection", func() {
 			log.Printf("%v - Disconnect", socketID)
-			requests <- "stop"
+			requests <- stop
 		})
 	})
 	server.On("error", func(socket socketio.Socket, err error) {
