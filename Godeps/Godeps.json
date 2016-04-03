@@ -12,12 +12,12 @@
 		},
 		{
 			"ImportPath": "github.com/googollee/go-socket.io",
-			"Comment": "0.9.x-51-g14bb3d0",
-			"Rev": "14bb3d0368089a74cb52164a7a697cf404bda9c6"
+			"Comment": "0.9.x-53-g7000a8a",
+			"Rev": "7000a8a5cd56ab1c3ead7cf33de3e9b2b1906af4"
 		},
 		{
 			"ImportPath": "github.com/gorilla/websocket",
-			"Rev": "5434f8b69b7f4f4ef0120e04c046cd6ce54ef0dd"
+			"Rev": "e2e3d8414d0fbae04004f151979f4e27c6747fe7"
 		}
 	]
 }
