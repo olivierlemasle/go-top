@@ -3,7 +3,7 @@ package procinfo
 import (
 	"time"
 
-	linuxproc "github.com/olivierlemasle/go-top/Godeps/_workspace/src/github.com/c9s/goprocinfo/linux"
+	linuxproc "github.com/c9s/goprocinfo/linux"
 )
 
 // GetCPUNumber returns the number of CPU (from /proc/cpuinfo)

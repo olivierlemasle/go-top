@@ -1,6 +1,6 @@
 language: go
 sudo: false
-go: 1.5
+go: 1.7
 before_script:
   - nvm install 5.2.0
   - |-

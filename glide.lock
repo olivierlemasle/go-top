@@ -1,0 +1,14 @@
+hash: 6193eae79b3f52fd6bc4a116286501ab6e2cd87f8f5d33cbe09b4921ac6598b5
+updated: 2017-03-12T12:43:50.600044316+01:00
+imports:
+- name: github.com/c9s/goprocinfo
+  version: 19cb9f127a9c8d2034cf59ccb683cdb94b9deb6c
+  subpackages:
+  - linux
+- name: github.com/googollee/go-engine.io
+  version: a66cf68b24e56df0cacdc6041b93742f983a296a
+- name: github.com/googollee/go-socket.io
+  version: 7000a8a5cd56ab1c3ead7cf33de3e9b2b1906af4
+- name: github.com/gorilla/websocket
+  version: e2e3d8414d0fbae04004f151979f4e27c6747fe7
+testImports: []

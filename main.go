@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/olivierlemasle/go-top/Godeps/_workspace/src/github.com/googollee/go-socket.io"
+	"github.com/googollee/go-socket.io"
 	"github.com/olivierlemasle/go-top/procinfo"
 )
 

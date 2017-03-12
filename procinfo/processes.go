@@ -1,6 +1,6 @@
 package procinfo
 
-import linuxproc "github.com/olivierlemasle/go-top/Godeps/_workspace/src/github.com/c9s/goprocinfo/linux"
+import linuxproc "github.com/c9s/goprocinfo/linux"
 
 // ListProcesses ...
 func ListProcesses() ([]*linuxproc.Process, error) {
