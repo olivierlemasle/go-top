@@ -1,8 +1,6 @@
 /// <reference path="../app.ts" />
 /// <reference path="../shared.ts" />
-/// <reference path="../../../typings/socket.io-client/socket.io-client.d.ts" />
-/// <reference path="../../../typings/moment/moment.d.ts" />
-/// <reference path="../../../typings/d3/d3.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 
 "use strict";
 

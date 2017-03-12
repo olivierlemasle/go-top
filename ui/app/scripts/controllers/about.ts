@@ -1,6 +1,5 @@
 /// <reference path="../app.ts" />
-/// <reference path="../../../typings/moment/moment.d.ts" />
-/// <reference path="../../../typings/angularjs/angular-sanitize.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 
 "use strict";
 

@@ -1,8 +1,5 @@
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../typings/angularjs/angular-route.d.ts" />
-/// <reference path="../../typings/angular-material/angular-material.d.ts" />
-
 "use strict";
+/// <reference path="../../typings/index.d.ts" />
 
 class Menu {
   title: string;

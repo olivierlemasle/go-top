@@ -257,7 +257,7 @@ module.exports = function (grunt) {
     // Compiles TypeScript to JavaScript
     typescript: {
       base: {
-        src: ['<%= appConfig.app %>/scripts/{,*/}*.ts'],
+        src: ['<%= appConfig.app %>/scripts/{,*/}*.ts', 'typings/index.d.ts'],
           dest: '.tmp/scripts',
           options: {
           module: 'amd', //or commonjs
@@ -278,14 +278,8 @@ module.exports = function (grunt) {
         }
       }
     },
-    tsd: {
-      refresh: {
-        options: {
-          // execute a command
-          command: 'reinstall',
-          config: 'tsd.json'
-        }
-      }
+    typings: {
+      install: {}
     },
 
 
@@ -473,7 +467,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
-      'tsd:refresh',
+      'typings:install',
       'concurrent:server',
       'postcss:server',
       'run:integrationServer',
@@ -486,7 +480,7 @@ module.exports = function (grunt) {
   grunt.registerTask('test', [
     'clean:server',
     'wiredep',
-    'tsd:refresh',
+    'typings:install',
     'concurrent:test',
     'postcss',
     'karma:unit',
@@ -500,7 +494,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'wiredep',
-    'tsd:refresh',
+    'typings:install',
     'useminPrepare',
     'concurrent:dist',
     'postcss',

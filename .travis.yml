@@ -4,7 +4,7 @@ go: 1.7
 before_script:
   - nvm install 5.2.0
   - |-
-    echo "{\"token\": \"$GITHUB_TOKEN\"}" > ui/.tsdrc
+    echo "{\"githubToken\": \"$GITHUB_TOKEN\"}" > ui/.typingsrc
 script: make dist
 
 addons:
